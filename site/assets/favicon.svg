@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#faf7f1"/>
+      <stop offset="1" stop-color="#eadfce"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#g)"/>
+  <circle cx="100" cy="27" r="20" fill="#b63a2f" opacity=".14"/>
+  <circle cx="24" cy="109" r="28" fill="#294b72" opacity=".11"/>
+  <text x="64" y="85" text-anchor="middle" font-family="Yu Mincho, Noto Serif JP, serif" font-size="68" fill="#b63a2f">歌</text>
+</svg>

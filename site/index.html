@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f0e8">
+  <meta name="description" content="日本歌：可搜索、可查阅的日语歌词卡资料库，收录日文歌词、平假名注音与中文对照。">
+  <title>日本歌 · 日语歌词资料库</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script defer src="assets/app.js"></script>
+</head>
+<body>
+  <div class="paper-noise" aria-hidden="true"></div>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="kicker">NIHONUTA · 日本語歌詞</p>
+        <h1><span>日本</span>歌</h1>
+        <p class="lede">日文歌词 · 平假名注音 · 中文对照</p>
+        <p class="intro">把散落在歌词卡里的日文与翻译，整理成一座可以随时检索、翻阅的线上资料库。</p>
+      </div>
+      <div class="hero-side">
+        <div class="stat-board" aria-label="资料库统计">
+          <div class="stat">
+            <strong id="songCount">—</strong>
+            <span>首歌词</span>
+          </div>
+          <div class="stat">
+            <strong id="artistCount">—</strong>
+            <span>位歌手</span>
+          </div>
+          <div class="stat stat-wide">
+            <strong id="buildDate">正在读取</strong>
+            <span>资料库状态</span>
+          </div>
+        </div>
+        <a class="repo-link" id="repoLink" href="https://github.com/woyo-i-sllh/Nihonuta" target="_blank" rel="noopener">
+          <span>在 GitHub 查看项目</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="search-panel" aria-label="搜索歌词">
+        <div class="search-row">
+          <label class="search-box" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+            <input id="searchInput" type="search" placeholder="搜索歌名、歌手、日文歌词、注音或中文翻译…" autocomplete="off" spellcheck="false">
+            <kbd data-shortcut>/</kbd>
+            <button id="clearSearch" class="clear-search" type="button" aria-label="清空搜索" hidden>×</button>
+          </label>
+        </div>
+        <div class="control-row">
+          <label class="control">
+            <span>歌手</span>
+            <select id="artistFilter">
+              <option value="">全部歌手</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>排序</span>
+            <select id="sortMode">
+              <option value="title">歌名 · 日文</option>
+              <option value="artist">歌手 · 日文</option>
+              <option value="links">相关链接多优先</option>
+            </select>
+          </label>
+          <button id="randomButton" class="soft-button" type="button">
+            <span aria-hidden="true">占</span> 随机一首
+          </button>
+          <button id="updateButton" class="soft-button update-button" type="button">
+            <span class="update-dot" aria-hidden="true"></span>
+            检查更新
+          </button>
+        </div>
+        <div class="status-line">
+          <p id="searchStatus" role="status" aria-live="polite">正在载入歌词目录…</p>
+          <p id="indexStatus" class="index-status">全文索引准备中</p>
+        </div>
+      </section>
+
+      <section class="results-section" aria-label="歌词搜索结果">
+        <div class="results-head">
+          <div>
+            <p class="section-kicker">LYRIC ARCHIVE</p>
+            <h2 id="resultsTitle">全部歌词</h2>
+          </div>
+          <p id="resultsCount" class="results-count"></p>
+        </div>
+        <div id="results" class="song-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <span class="empty-mark" aria-hidden="true">無</span>
+          <h3>没有找到符合条件的歌词</h3>
+          <p>试试缩短关键词，或切换为“全部歌手”。</p>
+          <button id="resetSearch" class="primary-button" type="button">清除筛选</button>
+        </div>
+        <div id="loadingState" class="loading-state" hidden>
+          <span></span><span></span><span></span>
+        </div>
+        <div class="load-more-wrap">
+          <button id="loadMore" class="load-more" type="button" hidden>继续显示</button>
+        </div>
+        <div id="fatalState" class="empty-state fatal-state" hidden>
+          <span class="empty-mark" aria-hidden="true">!</span>
+          <h3>目录没有载入</h3>
+          <p id="fatalMessage">请确认正在通过网页服务器打开本站。</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>资料库只收录个人学习用歌词与翻译。版权归原作者、作词作曲者及权利方所有，请勿用于商业用途。</p>
+      <p><span>Nihonuta</span> · <a id="footerRepoLink" href="https://github.com/woyo-i-sllh/Nihonuta" target="_blank" rel="noopener">公开仓库</a> · <a href="data/site.json">站点数据</a></p>
+    </footer>
+  </div>
+
+  <template id="songCardTemplate">
+    <a class="song-card" target="_blank" rel="noopener">
+      <div class="card-glow" aria-hidden="true"></div>
+      <div class="card-head">
+        <span class="song-number"></span>
+        <span class="match-badge"></span>
+      </div>
+      <div class="song-main">
+        <h3 class="song-title"></h3>
+        <p class="song-cn"></p>
+        <p class="song-artist"></p>
+        <p class="song-preview"></p>
+      </div>
+      <div class="card-foot">
+        <span class="link-count"></span>
+        <span class="open-label">查阅歌词 <span aria-hidden="true">↗</span></span>
+      </div>
+    </a>
+  </template>
+  <noscript><p class="noscript">本站搜索需要启用 JavaScript。</p></noscript>
+</body>
+</html>

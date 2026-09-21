@@ -1,0 +1,19 @@
+{
+  "name": "日本歌 · 日语歌词资料库",
+  "short_name": "日本歌",
+  "description": "可搜索、可查阅的日语歌词卡资料库",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e9",
+  "theme_color": "#f5f0e8",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
