@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$Source = 'F:\life\songs\日语歌',
     [switch]$Publish,
