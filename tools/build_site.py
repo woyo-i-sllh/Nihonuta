@@ -261,10 +261,11 @@ def main() -> int:
 
     artists = Counter(item["a"] for item in catalog if item["a"])
     latest_source = max((p.stat().st_mtime for p in html_files), default=0)
-    generated_dt = datetime.fromtimestamp(latest_source, tz=timezone.utc).replace(microsecond=0)
-    generated_at = generated_dt.isoformat().replace("+00:00", "Z")
-    latest_source_date = generated_dt.date().isoformat() if latest_source else ""
-    version = f"{generated_dt.strftime('%Y%m%d')}-{source_revision[:10]}"
+    generated_dt_utc = datetime.fromtimestamp(latest_source, tz=timezone.utc).replace(microsecond=0)
+    local_source_dt = datetime.fromtimestamp(latest_source)
+    generated_at = generated_dt_utc.isoformat().replace("+00:00", "Z")
+    latest_source_date = local_source_dt.date().isoformat() if latest_source else ""
+    version = f"{local_source_dt.strftime('%Y%m%d')}-{source_revision[:10]}"
 
     manifest = {
         "count": len(full_items),
