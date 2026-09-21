@@ -299,17 +299,18 @@ async function loadFullIndex() {
       const manifest = await fetchJSON(state.site.search_manifest_url);
       state.shardTotal = manifest.shards.length;
       updateIndexStatus();
-      for (const shard of manifest.shards) {
-        const rows = await fetchJSON(`data/search/${shard}`);
-        for (const [id, text] of rows) {
-          state.fullText.set(id, text);
-          state.fullFold.set(id, normalize(text));
+      for (let offset = 0; offset < manifest.shards.length; offset += 4) {
+        const batch = manifest.shards.slice(offset, offset + 4);
+        const payloads = await Promise.all(batch.map((shard) => fetchJSON(`data/search/${shard}`)));
+        for (const rows of payloads) {
+          for (const [id, text] of rows) {
+            state.fullText.set(id, text);
+            state.fullFold.set(id, normalize(text));
+          }
         }
-        state.shardLoaded += 1;
+        state.shardLoaded += batch.length;
         updateIndexStatus();
-        if (state.query.trim() && (state.shardLoaded % 4 === 0 || state.shardLoaded === state.shardTotal)) {
-          runSearch(false);
-        }
+        if (state.query.trim()) runSearch(false);
       }
     } catch (error) {
       console.warn('Full-text index unavailable:', error);
