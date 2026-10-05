@@ -2,13 +2,13 @@
   "name": "Nihonuta",
   "title": "日本歌",
   "description": "可搜索、可查阅的日语歌词卡资料库",
-  "version": "20261001-6c7a80b52b",
-  "generated_at": "2026-10-01T02:03:32Z",
-  "latest_source_date": "2026-10-01",
-  "song_count": 2140,
-  "artist_count": 970,
+  "version": "20261005-78ac0b3773",
+  "generated_at": "2026-10-05T07:53:45Z",
+  "latest_source_date": "2026-10-05",
+  "song_count": 2141,
+  "artist_count": 971,
   "catalog_url": "data/catalog.json",
   "search_manifest_url": "data/search/manifest.json",
   "repository": "https://github.com/woyo-i-sllh/Nihonuta",
-  "source_revision": "6c7a80b52beb329ee2531792597f712e50530825530455ed600a33d8c2d4ab0f"
+  "source_revision": "78ac0b3773b68d5d39ccc9fbf0a7ec6171486947a01d81e209ee67a8813ebb6f"
 }
